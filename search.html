@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search</title>
+    <link rel="icon" href="logo.png" type="image/gif" sizes="20x20">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+    integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+    integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+    crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+    integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+    crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"
+    integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI"
+    crossorigin="anonymous"></script>
+</head>
+<style>
+      * {
+    margin: 0;
+    padding: 0;
+  }
+
+  .navbar {
+
+    position: sticky;
+    top: 0px;
+
+  }
+</style>
+<body>
+
+    <nav class="navbar navbar-light bg-light navbar-expand-sm">
+        <a class="navbar-brand" href="#" style="cursor:default;">
+          <img src="logo.png" width="50" height="50" alt="logo">
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-list-2"
+          aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation"
+          style="background-color: transparent; margin-right: 10px;">
+          <span class="navbar-toggler-icon" style="border:black; background-color:white;"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbar-list-2">
+          <ul class="navbar-nav" style="font-size: 1.2rem; margin: auto;">
+            <li class="nav-item active">
+              <a class="nav-link" href="#">Home<span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="categories.html">Categories</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="Wallpaper.html">Wallpaper</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="popular.html">Popular</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="about.html">About Us</a>
+            </li>
+          </ul>
+        </div>
+      </nav>
+
+    <div class="gallery">
+    </div>
+
+</body>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="index.js"></script>
+<script>
+    let page = 1;
+    let my = sessionStorage.getItem("val");
+    function getdata() {
+      url = "https://api.unsplash.com/search/photos?query="+my+"&client_id=jYksj86D3jcLdIxFq6tSZ7ZGHMW5MBEQojUp_bzvQKA&per_page=30&page="+page;
+  
+      fetch(url).then((response) => {
+        return response.json();
+      }).then((data) => {
+        console.log(data);
+  
+        data.results.forEach(img => {
+  
+          let gallery = `
+          <img src="${img.urls.regular}">
+          <a href="${img.links.Download}">   
+          `;
+  
+          // document.getElementById("result").append(result);
+  
+          $(".gallery").append(gallery);
+  
+        });
+  
+        page++;
+        console.log(page);
+  
+      })
+  
+    }
+    getdata();
+  
+    window.addEventListener('scroll', () => {
+  
+      if (window.scrollY + window.innerHeight >= document.documentElement.scrollHeight) {
+        getdata();
+      }
+  
+    });
+  
+  </script>
+  
+</html>
